@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, OnDestroy, Input, ElementRef } from '@angular/core';
-import * as L from 'leaflet';
+import L from 'leaflet';
 
 import { Application } from 'app/models/application';
 

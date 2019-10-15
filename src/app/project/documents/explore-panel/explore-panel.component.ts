@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 
 import { UrlService } from 'app/services/url.service';

@@ -4,8 +4,7 @@ import { MatSnackBarRef, SimpleSnackBar, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 
 import { Observable, Subject, Subscription, concat } from 'rxjs';
-import * as operators from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { AppMapComponent } from './app-map/app-map.component';
 import { AppListComponent } from './app-list/app-list.component';
@@ -17,6 +16,7 @@ import { Application } from 'app/models/application';
 import { ApplicationService } from 'app/services/application.service';
 import { ConfigService } from 'app/services/config.service';
 import { UrlService } from 'app/services/url.service';
+import { takeUntil, finalize } from 'rxjs/operators';
 
 export interface IFiltersType {
   cpStatuses: string[];
@@ -86,7 +86,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {
     // watch for URL param changes
     // NB: this must be in constructor to get initial filters
-    this.urlService.onNavEnd$.pipe(operators.takeUntil(this.ngUnsubscribe)).subscribe(event => {
+    this.urlService.onNavEnd$.pipe(takeUntil(this.ngUnsubscribe)).subscribe(event => {
       const urlTree = router.parseUrl(event.url);
       if (urlTree) {
         // if splash modal is open, close it in case user clicked Back
@@ -206,7 +206,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
         // get total number using filters (but not coordinates)
         this.applicationService
           .getCount(this.filters, null)
-          .pipe(operators.takeUntil(this.ngUnsubscribe))
+          .pipe(takeUntil(this.ngUnsubscribe))
           .subscribe(count => {
             this.totalNumber = count;
           });
@@ -217,7 +217,7 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.applicationService
         .getCount(this.filters, this.coordinates)
-        .pipe(operators.takeUntil(this.ngUnsubscribe))
+        .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(
           count => {
             // prepare 'pages' of gets
@@ -235,8 +235,8 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
             const start = new Date().getTime(); // for profiling
             this.observablesSub = concat(...observables)
               .pipe(
-                operators.takeUntil(this.ngUnsubscribe),
-                operators.finalize(() => {
+                takeUntil(this.ngUnsubscribe),
+                finalize(() => {
                   this.isLoading = false;
                   this.hideSnackbar();
                   console.log('got', this.apps.length, 'apps in', new Date().getTime() - start, 'ms');

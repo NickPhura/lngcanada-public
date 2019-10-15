@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 
 import { Observable, of, combineLatest, merge, throwError } from 'rxjs';
 import { map, mergeMap, toArray } from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { Application } from 'app/models/application';
 import { Comment } from 'app/models/comment';

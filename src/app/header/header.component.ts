@@ -6,7 +6,6 @@ import { Router, NavigationEnd } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-
 export class HeaderComponent {
   public project: string;
   constructor(public router: Router) {
@@ -14,11 +13,14 @@ export class HeaderComponent {
       if (ev instanceof NavigationEnd) {
         const r = /\/project\/(\d)\//;
         const match = r.exec(location.pathname) || [];
-        this.project = ((proj) => {
+        this.project = (proj => {
           switch (proj) {
-            case '1': return 'LNG Canada';
-            case '2': return 'Coastal GasLink';
-            default: return 'Projects';
+            case '1':
+              return 'LNG Canada';
+            case '2':
+              return 'Coastal GasLink';
+            default:
+              return 'Projects';
           }
         })(match[1]);
       }

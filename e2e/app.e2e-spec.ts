@@ -1,6 +1,6 @@
 import { BaseApp2Page } from './app.po';
 
-describe('base-app2 App', () => {
+describe('lng-public App', () => {
   let page: BaseApp2Page;
 
   beforeEach(() => {

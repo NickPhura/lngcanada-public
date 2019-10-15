@@ -1,7 +1,7 @@
 {
   "linters": {
     "*.ts": [
-      "ng lint base-app2 --fix --format=stylish",
+      "ng lint lng-public --fix --format=stylish",
       "prettier --write --loglevel warn",
       "git add"
     ],

@@ -1,6 +1,6 @@
 import { Params } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { Feature } from './feature';
 

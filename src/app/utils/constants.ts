@@ -1,8 +1,5 @@
 export class Constants {
-  public static readonly agencies = [
-    'Environmental Assessment Office',
-    'BC Oil and Gas Commission'
-  ];
+  public static readonly agencies = ['Environmental Assessment Office', 'BC Oil and Gas Commission'];
 
   public static readonly complianceDocumentTypes = [
     'Certificate',

@@ -2,15 +2,17 @@ import { Pipe, PipeTransform } from '@angular/core';
 import LinkifyIt from 'linkify-it';
 
 /**
- * Finds standard urls and relative url patterns and replaces them with anchor tags.
+ * Finds custom url patterns and replaces them with anchor tags.
  *
- * Standard urls:
- * "This is a string with a https://www.regular-url.com in it."
- * "This is a string with a <a href="https://www.regular-url.com" target="_blank">www.regular-url.com</a> in it."
+ * Examples - Before and after applying the linkify pipe.
  *
- * Relative urls:
- * "This is a string with a [relative url](/project/123/documents) in it."
- * "This is a string with a <a href="http://localhost:4300/project/123/documents" target="_blank">relative url</a> in it."
+ * Standard urls with custom text:
+ *  - "This is a string with a [standard url](https://www.standard-url.com) in it."
+ *  - "This is a string with a <a href="https://https://www.standard-url.com)" target="_blank">standard url</a> in it."
+ *
+ * Relative urls with custom text:
+ *  - "This is a string with a [relative url](/project/123/documents) in it."
+ *  - "This is a string with a <a href="http://localhost:4300/project/123/documents" target="_blank">relative url</a> in it."
  *
  * @export
  * @class LinkifyPipe
@@ -39,7 +41,7 @@ export class LinkifyPipe implements PipeTransform {
    * @memberof LinkifyPipe
    */
   private linkifyString(str: string): string {
-    return this.convertRelativeURLs(this.convertStandardURLs(str));
+    return this.convertCustomURLs(str);
   }
 
   /**
@@ -54,48 +56,38 @@ export class LinkifyPipe implements PipeTransform {
     const newStringArray: string[] = [];
 
     str.forEach(line => {
-      newStringArray.push(this.convertRelativeURLs(this.convertStandardURLs(line)));
+      newStringArray.push(this.linkifyString(line));
     });
 
     return newStringArray;
   }
 
   /**
-   * Finds and converts all standard urls to anchor tags.
-   *
-   * @private
-   * @returns {string}
-   * @memberof LinkifyPipe
-   */
-  private convertStandardURLs(str: string): string {
-    const linkify = LinkifyIt();
-
-    const matches = linkify.match(str);
-
-    if (matches) {
-      matches.forEach(match => {
-        str = str.replace(match.text, `<a href="${match.url}" target="_blank">${match.text}</a>`);
-      });
-    }
-
-    return str;
-  }
-
-  /**
    * Finds and convert all relative urls to anchor tags.
-   * These relative urls are specified/found using a regex pattern: [LinkName](RelativeURL)
+   * These relative urls are specified/found using a regex pattern: [LinkName](Standard_or_Relative_URL)
    *
    * @private
    * @param {string} str
    * @returns {string}
    * @memberof LinkifyPipe
    */
-  private convertRelativeURLs(str: string): string {
-    const match = str.match(/\[(.*)\]\((.*)\)/);
+  private convertCustomURLs(str: string): string {
+    const customURLMatch = str.match(/\[(.*)\]\((.*)\)/);
 
-    if (match) {
-      const url = new URL(match[2], window.location.origin);
-      str = str.replace(match[0], `<a href="${url.href}" target="_blank">${match[1]}</a>`);
+    if (customURLMatch) {
+      const entireMatchedPattern = customURLMatch[0];
+      const matchText = customURLMatch[1];
+      const matchUrl = customURLMatch[2];
+
+      const linkify = new LinkifyIt();
+      const linkifyMatches = linkify.match(customURLMatch[2]);
+
+      if (linkifyMatches && linkifyMatches.length) {
+        str = str.replace(entireMatchedPattern, `<a href="${linkifyMatches[0].url}" target="_blank">${matchText}</a>`);
+      } else {
+        const urlWithHost = new URL(matchUrl, window.location.origin);
+        str = str.replace(entireMatchedPattern, `<a href="${urlWithHost.href}" target="_blank">${matchText}</a>`);
+      }
     }
 
     return str;

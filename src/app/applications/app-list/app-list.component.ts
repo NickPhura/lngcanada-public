@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, OnDestroy, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { Application } from 'app/models/application';
 import { ApplicationService } from 'app/services/application.service';

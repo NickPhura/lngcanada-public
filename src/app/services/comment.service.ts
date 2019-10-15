@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 
 import { ApiService } from './api';
 import { CommentPeriodService } from './commentperiod.service';

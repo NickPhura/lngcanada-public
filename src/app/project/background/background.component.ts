@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageTypes } from 'app/utils/page-types.enum';
 import { DataService } from 'app/services/data.service';
 import { ActivatedRoute } from '@angular/router';
-import {DomSanitizer} from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-background',
@@ -17,7 +17,6 @@ export class BackgroundComponent implements OnInit {
   public trustedUrl: object;
 
   constructor(private sanitizer: DomSanitizer, private dataService: DataService, private route: ActivatedRoute) {
-
     this.trustedUrl = sanitizer.bypassSecurityTrustUrl('https://www.projects.eao.gov.bc.ca/');
 
     this.route.parent.params.subscribe(params => {

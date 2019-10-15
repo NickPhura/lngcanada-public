@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import * as _ from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 
 import { ExplorePanelComponent } from './explore-panel/explore-panel.component';

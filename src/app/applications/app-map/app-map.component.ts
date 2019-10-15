@@ -17,7 +17,7 @@ import { takeUntil } from 'rxjs/operators';
 // import { takeUntil, map } from 'rxjs/operators';
 import 'leaflet';
 import 'leaflet.markercluster';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import 'async';
 import 'topojson';
 import 'jquery';
@@ -47,7 +47,6 @@ const layers = {
   pipeline: null,
   sections: null
 };
-
 
 const markerIcon = L.icon({
   iconUrl: 'assets/images/baseline-location-24px.svg',
@@ -236,13 +235,14 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
       const tooltipOffset = L.point(0, 25);
       const tooltipOffset2 = L.point(0, -5);
       layers.facility = L.geoJSON(data.facility, {
-        style: {color: '#6092ff', weight: 2}
+        style: { color: '#6092ff', weight: 2 }
       }).addTo(this.map);
 
       layers.pipeline = L.geoJSON(data.pipeline, {
-        style: {color: '#6092ff', weight: 3},
+        style: { color: '#6092ff', weight: 3 },
         onEachFeature: (_, layer) => {
-          layer.on('click', () => { // Open project popup
+          layer.on('click', () => {
+            // Open project popup
             layers.facilities.eachLayer(feature => {
               if (feature.feature.properties.LABEL === 'Wilde Lake M/S') {
                 feature.openPopup();
@@ -394,11 +394,14 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
             }
           }
 
-          layer.on('click', (e) => { // Open project popup
+          layer.on('click', e => {
+            // Open project popup
             if (
               e.target.feature.properties.LABEL === 'Kitimat M/S' ||
               e.target.feature.properties.LABEL === 'Wilde Lake M/S'
-              ) { return; }
+            ) {
+              return;
+            }
             layers.facilities.eachLayer(feature => {
               if (feature.feature.properties.LABEL === 'Wilde Lake M/S') {
                 feature.openPopup();
@@ -408,7 +411,8 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
           layer.on('mouseover', e => {
             e.target.setStyle({ color: '#00f6ff' }); // Highlight geo feature
-            if (feature.properties.LABEL === 'Kitimat M/S') { // Highlight legend entry
+            if (feature.properties.LABEL === 'Kitimat M/S') {
+              // Highlight legend entry
               $('#lng-button').css('background', '#c4f9ff');
             } else {
               $('#gas-button').css('background', '#c4f9ff');
@@ -417,7 +421,8 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
           layer.on('mouseout', e => {
             e.target.setStyle({ color: '#6092ff' }); // Unhighlight geo feature
-            if (feature.properties.LABEL === 'Kitimat M/S') { // Unhighlight legend entry
+            if (feature.properties.LABEL === 'Kitimat M/S') {
+              // Unhighlight legend entry
               $('#lng-button').css('background', '#ffffff');
             } else {
               $('#gas-button').css('background', '#ffffff');
@@ -469,7 +474,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
     //   },
     //   this
     // );
-
 
     // Data collection function
     const getIt = (loc: string, callback: any) => {
@@ -569,7 +573,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   // sections: null
 
   public ngOnLegendLngClick() {
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL === 'Kitimat M/S') {
         feature.openPopup();
       }
@@ -577,7 +581,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   }
 
   public ngOnLegendGasClick() {
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL === 'Wilde Lake M/S') {
         feature.openPopup();
       }
@@ -587,42 +591,42 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   public ngOnLegendLngEnter() {
     // Highlight the facility ... that last dot
     $('#lng-button').css('background', '#c4f9ff');
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL === 'Kitimat M/S') {
-        feature.setStyle({color: '#00f6ff'});
+        feature.setStyle({ color: '#00f6ff' });
       }
     });
   }
   public ngOnLegendLngLeave() {
     $('#lng-button').css('background', '#ffffff');
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL === 'Kitimat M/S') {
-        feature.setStyle({color: '#6092ff'});
+        feature.setStyle({ color: '#6092ff' });
       }
     });
   }
 
   public ngOnLegendGasEnter() {
     $('#gas-button').css('background', '#c4f9ff');
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL !== 'Kitimat M/S') {
-        feature.setStyle({color: '#00f6ff'});
+        feature.setStyle({ color: '#00f6ff' });
       }
     });
-    layers.pipeline.eachLayer((feature) => {
-      feature.setStyle({color: '#00f6ff'});
+    layers.pipeline.eachLayer(feature => {
+      feature.setStyle({ color: '#00f6ff' });
     });
   }
 
   public ngOnLegendGasLeave() {
     $('#gas-button').css('background', '#ffffff');
-    layers.facilities.eachLayer((feature) => {
+    layers.facilities.eachLayer(feature => {
       if (feature.feature.properties.LABEL !== 'Kitimat M/S') {
-        feature.setStyle({color: '#6092ff'});
+        feature.setStyle({ color: '#6092ff' });
       }
     });
-    layers.pipeline.eachLayer((feature) => {
-      feature.setStyle({color: '#6092ff'});
+    layers.pipeline.eachLayer(feature => {
+      feature.setStyle({ color: '#6092ff' });
     });
   }
 
@@ -778,7 +782,6 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
         this.markerClusterGroup.addLayer(marker); // save to marker clusters group
       }
     });
-
   }
 
   // called when user clicks on app marker

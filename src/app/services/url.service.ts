@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Params, ActivatedRoute, Router, NavigationEnd, Event } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, share } from 'rxjs/operators';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Location } from '@angular/common';
 
 //
