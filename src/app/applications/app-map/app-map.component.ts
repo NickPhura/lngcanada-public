@@ -22,9 +22,6 @@ import 'async';
 import 'topojson';
 import 'jquery';
 
-import { Application } from 'app/models/application';
-import { ApplicationService } from 'app/services/application.service';
-import { ConfigService } from 'app/services/config.service';
 import { UrlService } from 'app/services/url.service';
 import { MarkerPopupComponent } from './marker-popup/marker-popup.component';
 
@@ -91,14 +88,13 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
   private isMapReady = false;
   private doNotify = true; // whether to emit notification
   private ngUnsubscribe: Subject<boolean> = new Subject<boolean>();
+  private mapBaseLayerName = 'World Topographic';
 
   readonly defaultBounds = L.latLngBounds([53.6, -129.5], [56.1, -120]); // all of BC
 
   constructor(
     private appRef: ApplicationRef,
     private elementRef: ElementRef,
-    public applicationService: ApplicationService,
-    public configService: ConfigService,
     public urlService: UrlService,
     private injector: Injector,
     private resolver: ComponentFactoryResolver
@@ -531,7 +527,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     // load base layer
     for (const key of Object.keys(baseLayers)) {
-      if (key === this.configService.baseLayerName) {
+      if (key === this.mapBaseLayerName) {
         this.map.addLayer(baseLayers[key]);
         break;
       }
@@ -539,7 +535,7 @@ export class AppMapComponent implements AfterViewInit, OnChanges, OnDestroy {
 
     // save any future base layer changes
     this.map.on('baselayerchange', (e: L.LayersControlEvent) => {
-      this.configService.baseLayerName = e.name;
+      this.mapBaseLayerName = e.name;
     });
 
     this.fixMap();

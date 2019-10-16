@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxTextOverflowClampModule } from 'ngx-text-overflow-clamp';
 
 import { MarkerPopupComponent } from './marker-popup.component';
-import { VarDirective } from 'app/utils/ng-var.directive';
 import { ApplicationService } from 'app/services/application.service';
 import { CommentPeriodService } from 'app/services/commentperiod.service';
 import { Application } from 'app/models/application';
@@ -59,7 +58,7 @@ describe('MarkerPopupComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MarkerPopupComponent, VarDirective],
+      declarations: [MarkerPopupComponent],
       imports: [NgxTextOverflowClampModule, RouterTestingModule],
       providers: [
         { provide: ApplicationService, useValue: stubApplicationService },

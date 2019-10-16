@@ -10,13 +10,12 @@ import { LinkifyPipe } from 'app/pipes/linkify.pipe';
 
 import { VarDirective } from 'app/utils/ng-var.directive';
 import { DragMoveDirective } from 'app/utils/drag-move.directive';
-import { SlideshowModule } from 'ng-simple-slideshow';
 
 // re-usable component widgets
 import { ActivityComponent } from 'app/activity/activity.component';
 
 @NgModule({
-  imports: [BrowserModule, MatProgressBarModule, MatSnackBarModule, NgxTextOverflowClampModule, SlideshowModule],
+  imports: [BrowserModule, MatProgressBarModule, MatSnackBarModule, NgxTextOverflowClampModule],
   declarations: [
     OrderByPipe,
     NewlinesPipe,
@@ -36,7 +35,6 @@ import { ActivityComponent } from 'app/activity/activity.component';
     LinkifyPipe,
     VarDirective,
     DragMoveDirective,
-    SlideshowModule,
     ActivityComponent
   ]
 })

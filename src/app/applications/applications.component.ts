@@ -7,14 +7,11 @@ import { Observable, Subject, Subscription, concat } from 'rxjs';
 import _ from 'lodash';
 
 import { AppMapComponent } from './app-map/app-map.component';
-import { AppListComponent } from './app-list/app-list.component';
 import { FindPanelComponent } from './find-panel/find-panel.component';
 import { ExplorePanelComponent } from './explore-panel/explore-panel.component';
 import { DetailsPanelComponent } from './details-panel/details-panel.component';
 // import { SplashModalComponent, SplashModalResult } from './splash-modal/splash-modal.component';
 import { Application } from 'app/models/application';
-import { ApplicationService } from 'app/services/application.service';
-import { ConfigService } from 'app/services/config.service';
 import { UrlService } from 'app/services/url.service';
 import { takeUntil, finalize } from 'rxjs/operators';
 
@@ -51,7 +48,6 @@ const PAGE_SIZE = 250;
 })
 export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('appmap') appmap: AppMapComponent;
-  @ViewChild('applist') applist: AppListComponent;
   @ViewChild('findPanel') findPanel: FindPanelComponent;
   @ViewChild('explorePanel') explorePanel: ExplorePanelComponent;
   @ViewChild('detailsPanel') detailsPanel: DetailsPanelComponent;
@@ -79,8 +75,6 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     public snackbar: MatSnackBar,
     // private modalService: NgbModal,
     private router: Router,
-    private applicationService: ApplicationService,
-    public configService: ConfigService,
     public urlService: UrlService,
     private renderer: Renderer2
   ) {
@@ -190,90 +184,6 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500)();
   }
 
-  private getApps(getTotalNumber: boolean = true) {
-    // do this in another event so it's not in current change detection cycle
-    setTimeout(() => {
-      // pre-empt existing observables execution
-      if (this.observablesSub && !this.observablesSub.closed) {
-        this.observablesSub.unsubscribe();
-      }
-
-      this.showSnackbar();
-      this.isLoading = true;
-      let isFirstPage = true;
-
-      if (getTotalNumber) {
-        // get total number using filters (but not coordinates)
-        this.applicationService
-          .getCount(this.filters, null)
-          .pipe(takeUntil(this.ngUnsubscribe))
-          .subscribe(count => {
-            this.totalNumber = count;
-          });
-      }
-
-      // get latest coordinates
-      this.coordinates = this.appmap.getCoordinates();
-
-      this.applicationService
-        .getCount(this.filters, this.coordinates)
-        .pipe(takeUntil(this.ngUnsubscribe))
-        .subscribe(
-          count => {
-            // prepare 'pages' of gets
-            const observables: Array<Observable<Application[]>> = [];
-            for (let page = 0; page < Math.ceil(count / PAGE_SIZE); page++) {
-              observables.push(this.applicationService.getAll(page, PAGE_SIZE, this.filters, this.coordinates));
-            }
-
-            // check if there's nothing to query
-            if (observables.length === 0) {
-              this.apps = [];
-            }
-
-            // get all observables sequentially
-            const start = new Date().getTime(); // for profiling
-            this.observablesSub = concat(...observables)
-              .pipe(
-                takeUntil(this.ngUnsubscribe),
-                finalize(() => {
-                  this.isLoading = false;
-                  this.hideSnackbar();
-                  console.log('got', this.apps.length, 'apps in', new Date().getTime() - start, 'ms');
-                })
-              )
-              .subscribe(
-                applications => {
-                  if (isFirstPage) {
-                    isFirstPage = false;
-                    // replace array with applications so that first 'PAGE_SIZE' apps aren't necessarily redrawn on map
-                    // NB: OnChanges event will update the components that use this array
-                    this.apps = applications;
-                  } else {
-                    // NB: OnChanges event will update the components that use this array
-                    // NB: remove duplicates (eg, due to bad data such as multiple comment periods)
-                    this.apps = _.uniqBy(_.concat(this.apps, applications), app => app._id);
-                  }
-                },
-                error => {
-                  console.log(error);
-                  alert("Uh-oh, couldn't load applications");
-                  // applications not found --> navigate back to home
-                  this.router.navigate(['/']);
-                }
-              );
-          },
-          error => {
-            console.log(error);
-            alert("Uh-oh, couldn't count applications");
-            // applications not found --> navigate back to home
-            this.router.navigate(['/']);
-            this.isLoading = false;
-            this.hideSnackbar();
-          }
-        );
-    });
-  }
 
   /**
    * Event handler called when Find component updates its filters.
@@ -320,21 +230,6 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     // this.getApps(false); // total number is not affected
   }
 
-  /**
-   * Called when list component visibility is toggled.
-   */
-  public toggleAppList() {
-    if (this.isApplicationsListVisible) {
-      this.isApplicationsListVisible = false;
-    } else {
-      this.isApplicationsListVisible = true;
-      // make list visible in next timeslice
-      // to visually separate panel opening from data loading
-      setTimeout(() => {
-        this.applist.onListVisible();
-      });
-    }
-  }
 
   /**
    * Called when map component visibility is toggled.
@@ -406,6 +301,5 @@ export class ApplicationsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.findPanel.clearAllFilters(false);
     this.explorePanel.clearAllFilters(false);
     this.filters = emptyFilters;
-    this.getApps();
   }
 }

@@ -1,6 +1,6 @@
 import { BaseApp2Page } from './app.po';
 
-describe('lng-public App', () => {
+describe('nrts-prc-public App', () => {
   let page: BaseApp2Page;
 
   beforeEach(() => {

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "lng-public": {
+    "nrts-prc-public": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -32,9 +32,7 @@
               "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/moment/min/moment.min.js",
-              "node_modules/async/dist/async.min.js",
               "node_modules/leaflet/dist/leaflet.js",
-              "node_modules/topojson/dist/topojson.min.js",
               "node_modules/leaflet.markercluster/dist/leaflet.markercluster.js",
               "src/assets/js/utils.js"
             ]
@@ -62,19 +60,19 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "lng-public:build",
+            "browserTarget": "nrts-prc-public:build",
             "port": 4300
           },
           "configurations": {
             "production": {
-              "browserTarget": "lng-public:build:production"
+              "browserTarget": "nrts-prc-public:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "lng-public:build"
+            "browserTarget": "nrts-prc-public:build"
           }
         },
         "test": {
@@ -118,7 +116,7 @@
         }
       }
     },
-    "lng-public-e2e": {
+    "nrts-prc-public-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -127,7 +125,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "lng-public:serve"
+            "devServerTarget": "nrts-prc-public:serve"
           }
         },
         "lint": {
@@ -142,7 +140,7 @@
       }
     }
   },
-  "defaultProject": "lng-public",
+  "defaultProject": "nrts-prc-public",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

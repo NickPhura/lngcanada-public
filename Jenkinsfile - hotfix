@@ -9,13 +9,13 @@ pipeline {
     ROCKETCHAT_WEBHOOK_TOKEN = credentials('rocketchat_incoming_webhook_token')
   }
   stages {
-    stage('Building: public (develop branch)') {
+    stage('Building: public (hotfix branch)') {
       steps {
         script {
           try {
             notifyBuild("Building: ${env.JOB_NAME} ${env.BUILD_ID}", "YELLOW")
             echo "Building: env.JOB_NAME=${env.JOB_NAME} env.BUILD_ID=${env.BUILD_ID}"
-            openshiftBuild bldCfg: 'angular-on-nginx-build-angular-app-build', showBuildLogs: 'true'
+            openshiftBuild bldCfg: 'angular-on-nginx-hotfix-build-angular-app-build', showBuildLogs: 'true'
           } catch (e) {
             notifyBuild("BUILD ${env.JOB_NAME} ${env.BUILD_ID} FAILED", "RED")
             error("Building: Failed: ${e}")
@@ -25,13 +25,13 @@ pipeline {
         }
       }
     }
-    stage('Deploying: public (develop branch)') {
+    stage('Deploying: public (hotfix branch)') {
       steps {
         script {
           try {
             notifyBuild("Deploying: ${env.JOB_NAME} ${env.BUILD_ID}", "YELLOW")
             echo "Deploying: env.JOB_NAME=${env.JOB_NAME} env.BUILD_ID=${env.BUILD_ID}"
-            openshiftBuild bldCfg: 'angular-on-nginx-build', showBuildLogs: 'true'
+            openshiftBuild bldCfg: 'angular-on-nginx-hotfix-build', showBuildLogs: 'true'
           } catch (e) {
             notifyBuild("DEPLOYMENT ${env.JOB_NAME} ${env.BUILD_ID} FAILED", "RED")
             error("Deploying: Failed: ${e}")

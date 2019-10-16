@@ -1,13 +1,11 @@
 {
-  "linters": {
-    "*.ts": [
-      "ng lint lng-public --fix --format=stylish",
-      "prettier --write --loglevel warn",
-      "git add"
-    ],
-    "*.scss": [
-      "stylelint --fix",
-      "git add"
-    ]
-  }
+  "*.ts": [
+    "ng lint nrts-prc-public --fix --format=stylish",
+    "prettier --write --loglevel warn",
+    "git add"
+  ],
+  "*.scss": [
+    "stylelint --fix",
+    "git add"
+  ]
 }
