@@ -16,11 +16,7 @@ import { ApplicationsModule } from 'app/applications/applications.module';
 import { ProjectModule } from 'app/project/project.module';
 
 // components
-import { HomeProxyComponent } from 'app/home-proxy.component';
-import { ApplicationsProxyComponent } from 'app/applications-proxy.component';
 import { AppComponent } from 'app/app.component';
-import { CommentModalComponent } from 'app/comment-modal/comment-modal.component';
-import { ConfirmComponent } from 'app/confirm/confirm.component';
 import { ContactComponent } from 'app/contact/contact.component';
 import { HeaderComponent } from 'app/header/header.component';
 import { FooterComponent } from 'app/footer/footer.component';
@@ -28,13 +24,7 @@ import { HomeComponent } from 'app/home/home.component';
 
 // services
 import { ApiService } from 'app/services/api';
-import { ApplicationService } from 'app/services/application.service';
-import { CommentService } from 'app/services/comment.service';
-import { CommentPeriodService } from 'app/services/commentperiod.service';
-import { ConfigService } from 'app/services/config.service';
-import { DecisionService } from 'app/services/decision.service';
 import { DocumentService } from 'app/services/document.service';
-import { FeatureService } from 'app/services/feature.service';
 import { ProjectsComponent } from './projects/projects.component';
 import { UrlService } from 'app/services/url.service';
 import { DataService } from 'app/services/data.service';
@@ -57,11 +47,7 @@ import { FaqComponent } from 'app/faq/faq.component';
     BootstrapModalModule.forRoot({ container: document.body })
   ],
   declarations: [
-    HomeProxyComponent,
-    ApplicationsProxyComponent,
     AppComponent,
-    CommentModalComponent,
-    ConfirmComponent,
     ContactComponent,
     HeaderComponent,
     FooterComponent,
@@ -69,19 +55,8 @@ import { FaqComponent } from 'app/faq/faq.component';
     FaqComponent,
     HomeComponent
   ],
-  providers: [
-    ApiService,
-    ApplicationService,
-    CommentService,
-    CommentPeriodService,
-    ConfigService,
-    DecisionService,
-    DocumentService,
-    FeatureService,
-    UrlService,
-    DataService
-  ],
-  entryComponents: [CommentModalComponent, ConfirmComponent],
+  providers: [ApiService, DocumentService, UrlService, DataService],
+  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

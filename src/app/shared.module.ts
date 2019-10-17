@@ -8,7 +8,6 @@ import { NewlinesPipe } from 'app/pipes/newlines.pipe';
 import { ObjectFilterPipe } from 'app/pipes/object-filter.pipe';
 import { LinkifyPipe } from 'app/pipes/linkify.pipe';
 
-import { VarDirective } from 'app/utils/ng-var.directive';
 import { DragMoveDirective } from 'app/utils/drag-move.directive';
 import { SlideshowModule } from 'ng-simple-slideshow';
 
@@ -17,15 +16,7 @@ import { ActivityComponent } from 'app/activity/activity.component';
 
 @NgModule({
   imports: [BrowserModule, MatProgressBarModule, MatSnackBarModule, NgxTextOverflowClampModule, SlideshowModule],
-  declarations: [
-    OrderByPipe,
-    NewlinesPipe,
-    ObjectFilterPipe,
-    LinkifyPipe,
-    VarDirective,
-    DragMoveDirective,
-    ActivityComponent
-  ],
+  declarations: [OrderByPipe, NewlinesPipe, ObjectFilterPipe, LinkifyPipe, DragMoveDirective, ActivityComponent],
   exports: [
     MatProgressBarModule,
     MatSnackBarModule,
@@ -34,7 +25,6 @@ import { ActivityComponent } from 'app/activity/activity.component';
     NewlinesPipe,
     ObjectFilterPipe,
     LinkifyPipe,
-    VarDirective,
     DragMoveDirective,
     SlideshowModule,
     ActivityComponent

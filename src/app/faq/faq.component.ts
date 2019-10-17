@@ -50,7 +50,7 @@ export class FaqComponent implements OnInit {
       this.status10 = false;
       this.status11 = false;
     }
-  }
+  };
 
   ngOnInit() {}
 }

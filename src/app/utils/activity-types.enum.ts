@@ -25,5 +25,5 @@ export enum ActivityTypes {
   ENFORCEMENT_ACTION = 'warning',
 
   // Upcoming/important date
-  IMPORTANT_DATE = 'insert_invitation',
+  IMPORTANT_DATE = 'insert_invitation'
 }

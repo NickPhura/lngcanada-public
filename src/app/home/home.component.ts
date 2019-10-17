@@ -12,8 +12,7 @@ export class HomeComponent implements OnInit {
 
   public activities: object[] = [];
 
-  constructor(private dataService: DataService) {
-  }
+  constructor(private dataService: DataService) {}
 
   ngOnInit() {
     const homeJson = this.dataService.getHome();

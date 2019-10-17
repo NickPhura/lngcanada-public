@@ -6,12 +6,7 @@ import { map, mergeMap, toArray } from 'rxjs/operators';
 import * as _ from 'lodash';
 
 import { Application } from 'app/models/application';
-import { Comment } from 'app/models/comment';
-import { CommentPeriod } from 'app/models/commentperiod';
-import { Decision } from 'app/models/decision';
 import { Document } from 'app/models/document';
-import { Feature } from 'app/models/feature';
-import { User } from 'app/models/user';
 
 @Injectable()
 export class ApiService {
@@ -271,107 +266,11 @@ export class ApiService {
   }
 
   //
-  // Features
-  //
-  getFeaturesByTantalisId(tantalisID: number): Observable<Feature[]> {
-    const fields = ['applicationID', 'geometry', 'geometryName', 'properties', 'type'];
-    const queryString = `feature?tantalisId=${tantalisID}&fields=${this.buildValues(fields)}`;
-    return this.http.get<Feature[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getFeaturesByApplicationId(applicationId: string): Observable<Feature[]> {
-    const fields = ['applicationID', 'geometry', 'geometryName', 'properties', 'type'];
-    const queryString = `feature?applicationId=${applicationId}&fields=${this.buildValues(fields)}`;
-    return this.http.get<Feature[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  //
-  // Decisions
-  //
-  getDecisionByAppId(appId: string): Observable<Decision[]> {
-    const fields = ['_addedBy', '_application', 'name', 'description'];
-    const queryString = 'decision?_application=' + appId + '&fields=' + this.buildValues(fields);
-    return this.http.get<Decision[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getDecision(id: string): Observable<Decision[]> {
-    const fields = ['_addedBy', '_application', 'name', 'description'];
-    const queryString = 'decision/' + id + '?fields=' + this.buildValues(fields);
-    return this.http.get<Decision[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  //
-  // Comment Periods
-  //
-  getPeriodsByAppId(appId: string): Observable<CommentPeriod[]> {
-    const fields = ['_addedBy', '_application', 'startDate', 'endDate'];
-    const queryString = 'commentperiod?_application=' + appId + '&fields=' + this.buildValues(fields);
-    return this.http.get<CommentPeriod[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getPeriod(id: string): Observable<CommentPeriod[]> {
-    const fields = ['_addedBy', '_application', 'startDate', 'endDate'];
-    const queryString = 'commentperiod/' + id + '?fields=' + this.buildValues(fields);
-    return this.http.get<CommentPeriod[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  //
-  // Comments
-  //
-  getCommentsByPeriodId(periodId: string): Observable<Comment[]> {
-    const fields = [
-      '_addedBy',
-      '_commentPeriod',
-      'commentNumber',
-      'comment',
-      'commentAuthor',
-      'review',
-      'dateAdded',
-      'commentStatus'
-    ];
-    const queryString = 'comment?_commentPeriod=' + periodId + '&fields=' + this.buildValues(fields);
-    return this.http.get<Comment[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getComment(id: string): Observable<Comment[]> {
-    const fields = [
-      '_addedBy',
-      '_commentPeriod',
-      'commentNumber',
-      'comment',
-      'commentAuthor',
-      'review',
-      'dateAdded',
-      'commentStatus'
-    ];
-    const queryString = 'comment/' + id + '?fields=' + this.buildValues(fields);
-    return this.http.get<Comment[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  addComment(comment: Comment): Observable<Comment> {
-    const fields = ['comment', 'commentAuthor'];
-    const queryString = 'comment?fields=' + this.buildValues(fields);
-    return this.http.post<Comment>(`${this.apiPath}/${queryString}`, comment, {});
-  }
-
-  //
   // Documents
   //
   getDocumentsByAppId(appId: string): Observable<Document[]> {
     const fields = ['_application', 'documentFileName', 'displayName', 'internalURL', 'internalMime'];
     const queryString = 'document?_application=' + appId + '&fields=' + this.buildValues(fields);
-    return this.http.get<Document[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getDocumentsByCommentId(commentId: string): Observable<Document[]> {
-    const fields = ['_comment', 'documentFileName', 'displayName', 'internalURL', 'internalMime'];
-    const queryString = 'document?_comment=' + commentId + '&fields=' + this.buildValues(fields);
-    return this.http.get<Document[]>(`${this.apiPath}/${queryString}`);
-  }
-
-  getDocumentsByDecisionId(decisionId: string): Observable<Document[]> {
-    const fields = ['_decision', 'documentFileName', 'displayName', 'internalURL', 'internalMime'];
-    const queryString = 'document?_decision=' + decisionId + '&fields=' + this.buildValues(fields);
     return this.http.get<Document[]>(`${this.apiPath}/${queryString}`);
   }
 
@@ -388,15 +287,6 @@ export class ApiService {
 
   getDocumentUrl(document: Document): string {
     return document ? this.apiPath + '/document/' + document._id + '/download' : '';
-  }
-
-  //
-  // Users
-  //
-  getAllUsers(): Observable<User[]> {
-    const fields = ['displayName', 'username', 'firstName', 'lastName'];
-    const queryString = 'user?fields=' + this.buildValues(fields);
-    return this.http.get<User[]>(`${this.apiPath}/${queryString}`);
   }
 
   //

@@ -29,42 +29,6 @@ export class DocumentService {
     );
   }
 
-  // get all documents for the specified comment id
-  getAllByCommentId(commentId: string): Observable<Document[]> {
-    return this.api.getDocumentsByCommentId(commentId).pipe(
-      map((res: Document[]) => {
-        if (!res || res.length === 0) {
-          return [] as Document[];
-        }
-
-        const documents: Document[] = [];
-        res.forEach(document => {
-          documents.push(new Document(document));
-        });
-        return documents;
-      }),
-      catchError(this.api.handleError)
-    );
-  }
-
-  // get all documents for the specified decision id
-  getAllByDecisionId(decisionId: string): Observable<Document[]> {
-    return this.api.getDocumentsByDecisionId(decisionId).pipe(
-      map((res: Document[]) => {
-        if (!res || res.length === 0) {
-          return [] as Document[];
-        }
-
-        const documents: Document[] = [];
-        res.forEach(document => {
-          documents.push(new Document(document));
-        });
-        return documents;
-      }),
-      catchError(this.api.handleError)
-    );
-  }
-
   // get a specific document by its id
   getById(documentId: string, forceReload: boolean = false): Observable<Document> {
     if (this.document && this.document._id === documentId && !forceReload) {
