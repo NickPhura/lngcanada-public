@@ -6,6 +6,7 @@
     "ng": "ng",
     "start": "ng serve -o",
     "build": "npm run lint && ng build --prod",
+    "postinstall": "ng build --prod",
     "test": "echo Test suite should be run with `npm run tests` or npm `run tests-ci`",
     "tests": "ng test",
     "tests-ci": "ng test --watch=false",
@@ -19,7 +20,10 @@
     "lint-fix:scss": "stylelint ./**/*.scss --fix",
     "lint-fix": "npm-run-all -l -s -c lint-fix:ts lint-fix:scss"
   },
-  "private": true,
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 6.0.0"
+  },
   "dependencies": {
     "@angular/animations": "7.2.13",
     "@angular/cdk": "7.3.7",
@@ -67,9 +71,9 @@
     "@types/geojson": "7946.0.7",
     "@types/jasmine": "3.3.12",
     "@types/leaflet.markercluster": "1.4.0",
-    "@types/leaflet": "1.4.3",
+    "@types/leaflet": "1.4.4",
     "@types/linkify-it": "2.1.0",
-    "@types/lodash": "4.14.123",
+    "@types/lodash": "4.14.144",
     "@types/node": "11.13.4",
     "@types/topojson": "3.2.2",
     "codelyzer": "5.0.0",
@@ -89,6 +93,7 @@
     "protractor": "5.4.2",
     "stylelint-config-standard": "19.0.0",
     "stylelint": "11.1.1",
+    "ts-node": "8.4.1",
     "tslint-config-prettier": "1.18.0",
     "tslint": "5.20.0",
     "typescript": "3.1.6"
